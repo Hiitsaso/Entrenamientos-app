@@ -1,0 +1,145 @@
+import { useState } from "react"
+import Entrenamiento from "./components/Entrenamiento"
+
+const tiposEntrenamiento = {
+
+  Pecho: [
+    "Press banca",
+    "Press inclinado",
+    "Aperturas polea",
+    "Aperturas máquina"
+  ],
+
+  Espalda: [
+    "Jalón al pecho abierto",
+    "Jalón al pecho cerrado",
+    "Remo máquina",
+    "Remo mancuerna",
+    "Remo en T",
+    "Pull over",
+    "Face pull"
+  ],
+
+  Triceps: [
+    "Press francés",
+    "Fondos máquina",
+    "Polea cuerda",
+    "Unilateral polea",
+    "Polea doble"
+  ],
+
+  Biceps: [
+    "Predicador",
+    "Predicador máquina",
+    "Martillo mancuerna",
+    "Polea barra",
+    "Polea unilateral atrás"
+  ],
+
+  Hombro: [
+    "Lateral polea",
+    "Pajarito máquina",
+    "Press militar",
+    "Elevaciones barra polea",
+    "Hombro anterior cuerda"
+  ],
+
+  Abs: [
+    "Cuerda polea",
+    "Plancha",
+    "Lateral máquina",
+    "Elevaciones pierna"
+  ],
+
+  Pierna: [
+    "Hip trust",
+    "Sentadilla talón elevado",
+    "bulgara", 
+    "sentadillas sumo",
+    "ballenato", 
+    "cuadri máquina", 
+    "gemelo", 
+    "peso muerto máquina", 
+    "peso muerto mancuerna"
+  ]
+
+}
+
+function App() {
+
+  const [entrenamientos, setEntrenamientos] = useState([])
+
+  function añadirEntrenamiento(tipo) {
+
+    const fechaActual = new Date().toLocaleDateString()
+
+    const nuevoEntrenamiento = {
+      fecha: fechaActual,
+      tipo: tipo,
+      maquinas: []
+    }
+
+    setEntrenamientos([
+      ...entrenamientos,
+      nuevoEntrenamiento
+    ])
+  }
+
+  function añadirMaquina(indexEntrenamiento, nombreMaquina) {
+
+    const copiaEntrenamientos = [...entrenamientos]
+
+    copiaEntrenamientos[indexEntrenamiento].maquinas.push({
+      nombre: nombreMaquina,
+      series: []
+    })
+
+    setEntrenamientos(copiaEntrenamientos)
+  }
+
+  function añadirSerie(indexEntrenamiento, indexMaquina, reps, peso) {
+
+    const copiaEntrenamientos = [...entrenamientos]
+
+    copiaEntrenamientos[indexEntrenamiento]
+      .maquinas[indexMaquina]
+      .series.push({
+        reps: reps,
+        peso: peso
+      })
+
+    setEntrenamientos(copiaEntrenamientos)
+  }
+
+  return (
+    <div>
+
+      <h1>Lista de entrenamientos</h1>
+
+      {Object.keys(tiposEntrenamiento).map((tipo) => (
+
+        <button onClick={() => añadirEntrenamiento(tipo)}>
+          {tipo}
+        </button>
+
+      ))}
+
+      {entrenamientos.map((entrenamiento, index) => (
+
+        <Entrenamiento
+          entrenamiento={entrenamiento}
+          index={index}
+          maquinasDisponibles={
+            tiposEntrenamiento[entrenamiento.tipo]
+          }
+          añadirMaquina={añadirMaquina}
+          añadirSerie={añadirSerie}
+        />
+
+      ))}
+
+    </div>
+  )
+}
+
+export default App
