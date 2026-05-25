@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Entrenamiento from "./components/Entrenamiento"
 
 const tiposEntrenamiento = {
@@ -67,7 +67,25 @@ const tiposEntrenamiento = {
 
 function App() {
 
-  const [entrenamientos, setEntrenamientos] = useState([])
+  const [entrenamientos, setEntrenamientos] = useState(() => {
+
+    const datosGuardados =
+      localStorage.getItem("entrenamientos")
+
+    return datosGuardados
+      ? JSON.parse(datosGuardados)
+      : []
+
+  })
+
+  useEffect(() => {
+
+    localStorage.setItem(
+      "entrenamientos",
+      JSON.stringify(entrenamientos)
+    )
+
+  }, [entrenamientos])
 
   function añadirEntrenamiento(tipo) {
 
