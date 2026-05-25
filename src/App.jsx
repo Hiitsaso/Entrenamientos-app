@@ -165,6 +165,41 @@ function App() {
 
   }
 
+  function editarFecha(indexEntrenamiento, nuevaFecha) {
+
+    const copiaEntrenamientos = [...entrenamientos]
+
+    copiaEntrenamientos[indexEntrenamiento].fecha =
+      nuevaFecha
+
+    setEntrenamientos(copiaEntrenamientos)
+
+  }
+
+  function editarSerie(indexEntrenamiento, indexMaquina, indexSerie, campo, valor) {
+
+    const copiaEntrenamientos = [...entrenamientos]
+
+    copiaEntrenamientos[indexEntrenamiento]
+      .maquinas[indexMaquina]
+      .series[indexSerie][campo] = valor
+
+    setEntrenamientos(copiaEntrenamientos)
+
+  }
+
+  function editarMaquina(indexEntrenamiento, indexMaquina, nuevoNombre) {
+
+    const copiaEntrenamientos = [...entrenamientos]
+
+    copiaEntrenamientos[indexEntrenamiento]
+      .maquinas[indexMaquina]
+      .nombre = nuevoNombre
+
+    setEntrenamientos(copiaEntrenamientos)
+
+  }
+
 
   return (
     <div>
@@ -196,6 +231,9 @@ function App() {
           borrarSerie={borrarSerie}
           borrarMaquina={borrarMaquina}
           borrarEntrenamiento={borrarEntrenamiento}
+          editarFecha={editarFecha}
+          editarSerie={editarSerie}
+          editarMaquina={editarMaquina}
         />
 
       ))}

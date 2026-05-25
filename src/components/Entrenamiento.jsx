@@ -8,7 +8,10 @@ function Entrenamiento({
   añadirSerie,
   borrarSerie, 
   borrarMaquina,
-  borrarEntrenamiento
+  borrarEntrenamiento,
+  editarFecha,
+  editarSerie,
+  editarMaquina
 }) {
 
   return (
@@ -16,8 +19,19 @@ function Entrenamiento({
     <div>
 
       <h2>
-        {entrenamiento.fecha} - {entrenamiento.tipo}
+        {entrenamiento.tipo}
       </h2>
+
+      <input
+        type="text"
+        value={entrenamiento.fecha}
+        onChange={(e) =>
+          editarFecha(
+            index,
+            e.target.value
+          )
+        }
+      />
 
       <button
         onClick={() =>
@@ -49,6 +63,9 @@ function Entrenamiento({
           borrarSerie={borrarSerie}
           borrarMaquina={borrarMaquina}
           borrarEntrenamiento={borrarEntrenamiento}
+          editarFecha={editarFecha}
+          editarSerie={editarSerie}
+          editarMaquina={editarMaquina}
         />
 
       ))}

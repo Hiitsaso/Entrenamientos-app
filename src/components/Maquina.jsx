@@ -7,7 +7,10 @@ function Maquina({
   añadirSerie,
   borrarSerie,
   borrarMaquina,
-  borrarEntrenamiento
+  borrarEntrenamiento,
+  editarFecha,
+  editarSerie,
+  editarMaquina
 }) {
 
   const [reps, setReps] = useState("")
@@ -30,7 +33,16 @@ function Maquina({
 
     <div>
 
-      <h3>{maquina.nombre}</h3>
+      <input
+        value={maquina.nombre}
+        onChange={(e) =>
+          editarMaquina(
+            indexEntrenamiento,
+            indexMaquina,
+            e.target.value
+          )
+        }
+      />
 
       <button
         onClick={() =>
@@ -65,9 +77,33 @@ function Maquina({
 
         <div key={indexSerie}>
 
-          <p>
-            {serie.reps} reps - {serie.peso} kg
-          </p>
+          <input
+            type="number"
+            value={serie.reps}
+            onChange={(e) =>
+              editarSerie(
+                indexEntrenamiento,
+                indexMaquina,
+                indexSerie,
+                "reps",
+                e.target.value
+              )
+            }
+          />
+
+          <input
+            type="number"
+            value={serie.peso}
+            onChange={(e) =>
+              editarSerie(
+                indexEntrenamiento,
+                indexMaquina,
+                indexSerie,
+                "peso",
+                e.target.value
+              )
+            }
+          />
 
           <button
             onClick={() =>
