@@ -1,3 +1,4 @@
+import { useState } from "react"
 import Maquina from "./Maquina"
 
 function Entrenamiento({
@@ -6,7 +7,7 @@ function Entrenamiento({
   maquinasDisponibles,
   añadirMaquina,
   añadirSerie,
-  borrarSerie, 
+  borrarSerie,
   borrarMaquina,
   borrarEntrenamiento,
   editarFecha,
@@ -14,64 +15,74 @@ function Entrenamiento({
   editarMaquina
 }) {
 
-  return (
+  const [seleccion, setSeleccion] = useState("")
 
+  return (
     <div>
 
-      <h2>
-        {entrenamiento.tipo}
-      </h2>
-
+      {/* FECHA */}
       <input
-        type="text"
         value={entrenamiento.fecha}
-        onChange={(e) =>
-          editarFecha(
-            index,
-            e.target.value
-          )
-        }
+        onChange={(e) => editarFecha(index, e.target.value)}
       />
 
-      <button
-        onClick={() =>
-          borrarEntrenamiento(index)
-        }
-      >
-        Borrar entrenamiento
+      <h2>{entrenamiento.tipo}</h2>
+
+      {/* BORRAR ENTRENAMIENTO */}
+      <button onClick={() => borrarEntrenamiento(index)}>
+        🗑️ borrar
       </button>
 
-      {maquinasDisponibles.map((maquina) => (
+      {/* ➕ DROPDOWN DE MÁQUINAS */}
+      <div style={{ marginBottom: "10px" }}>
+
+        <select
+          value={seleccion}
+          onChange={(e) => setSeleccion(e.target.value)}
+        >
+          <option value="">-- elegir máquina --</option>
+
+          {maquinasDisponibles.map((m) => (
+            <option key={m} value={m}>
+              {m}
+            </option>
+          ))}
+
+        </select>
 
         <button
-          key={maquina}
-          onClick={() => añadirMaquina(index, maquina)}
+          onClick={() => {
+            if (seleccion) {
+              añadirMaquina(index, seleccion)
+              setSeleccion("")
+            }
+          }}
         >
-          {maquina}
+          ➕ añadir máquina
         </button>
 
-      ))}
+      </div>
 
-      {entrenamiento.maquinas.map((maquina, indexMaquina) => (
-
-        <Maquina
-          key={indexMaquina}
-          maquina={maquina}
-          indexEntrenamiento={index}
-          indexMaquina={indexMaquina}
-          añadirSerie={añadirSerie}
-          borrarSerie={borrarSerie}
-          borrarMaquina={borrarMaquina}
-          borrarEntrenamiento={borrarEntrenamiento}
-          editarFecha={editarFecha}
-          editarSerie={editarSerie}
-          editarMaquina={editarMaquina}
-        />
-
-      ))}
+      {/* MÁQUINAS */}
+      <div className="maquinas-container">
+        {[...entrenamiento.maquinas]
+          .reverse()
+          .map((maquina, indexMaquina) => (
+            <Maquina
+              key={indexMaquina}
+              maquina={maquina}
+              indexEntrenamiento={index}
+              indexMaquina={indexMaquina}
+              añadirSerie={añadirSerie}
+              borrarSerie={borrarSerie}
+              borrarMaquina={borrarMaquina}
+              editarSerie={editarSerie}
+              editarMaquina={editarMaquina}
+            />
+          ))}
+      </div>
 
     </div>
-
   )
 }
 

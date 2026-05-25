@@ -7,17 +7,20 @@ function Maquina({
   añadirSerie,
   borrarSerie,
   borrarMaquina,
-  borrarEntrenamiento,
-  editarFecha,
   editarSerie,
   editarMaquina
 }) {
 
   const [reps, setReps] = useState("")
   const [peso, setPeso] = useState("")
+  const [editandoMaquina, setEditandoMaquina] = useState(false)
+  const [editandoSerie, setEditandoSerie] = useState(null)
+
+  // estado temporal de edición de serie
+  const [editReps, setEditReps] = useState("")
+  const [editPeso, setEditPeso] = useState("")
 
   function crearSerie() {
-
     añadirSerie(
       indexEntrenamiento,
       indexMaquina,
@@ -29,100 +32,146 @@ function Maquina({
     setPeso("")
   }
 
+  function iniciarEdicionSerie(serie, indexSerie) {
+    setEditandoSerie(indexSerie)
+    setEditReps(serie.reps)
+    setEditPeso(serie.peso)
+  }
+
+  function guardarEdicionSerie(indexSerie) {
+    editarSerie(
+      indexEntrenamiento,
+      indexMaquina,
+      indexSerie,
+      "reps",
+      editReps
+    )
+
+    editarSerie(
+      indexEntrenamiento,
+      indexMaquina,
+      indexSerie,
+      "peso",
+      editPeso
+    )
+
+    setEditandoSerie(null)
+  }
+
   return (
+    <div className="maquina-card">
 
-    <div>
+      {/* HEADER */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 
-      <input
-        value={maquina.nombre}
-        onChange={(e) =>
-          editarMaquina(
-            indexEntrenamiento,
-            indexMaquina,
-            e.target.value
-          )
-        }
-      />
+        <div>
+          {!editandoMaquina ? (
+            <h3>{maquina.nombre}</h3>
+          ) : (
+            <input
+              value={maquina.nombre}
+              onChange={(e) =>
+                editarMaquina(
+                  indexEntrenamiento,
+                  indexMaquina,
+                  e.target.value
+                )
+              }
+            />
+          )}
+        </div>
 
-      <button
-        onClick={() =>
-          borrarMaquina(
-            indexEntrenamiento,
-            indexMaquina
-          )
-        }
-      >
-        Borrar máquina
-      </button>
-
-      <input
-        type="number"
-        placeholder="Reps"
-        value={reps}
-        onChange={(e) => setReps(e.target.value)}
-      />
-
-      <input
-        type="number"
-        placeholder="Peso"
-        value={peso}
-        onChange={(e) => setPeso(e.target.value)}
-      />
-
-      <button onClick={crearSerie}>
-        Añadir serie
-      </button>
-
-      {maquina.series.map((serie, indexSerie) => (
-
-        <div key={indexSerie}>
-
-          <input
-            type="number"
-            value={serie.reps}
-            onChange={(e) =>
-              editarSerie(
-                indexEntrenamiento,
-                indexMaquina,
-                indexSerie,
-                "reps",
-                e.target.value
-              )
-            }
-          />
-
-          <input
-            type="number"
-            value={serie.peso}
-            onChange={(e) =>
-              editarSerie(
-                indexEntrenamiento,
-                indexMaquina,
-                indexSerie,
-                "peso",
-                e.target.value
-              )
-            }
-          />
+        <div>
+          <button onClick={() => setEditandoMaquina(!editandoMaquina)}>
+            ✏️
+          </button>
 
           <button
             onClick={() =>
-              borrarSerie(
-                indexEntrenamiento,
-                indexMaquina,
-                indexSerie
-              )
+              borrarMaquina(indexEntrenamiento, indexMaquina)
             }
           >
-            Borrar serie
+            🗑️
           </button>
-
         </div>
 
-      ))}
+      </div>
+
+      {/* CREAR SERIE */}
+      <div style={{ marginTop: "10px" }}>
+        <input
+          type="number"
+          placeholder="Reps"
+          value={reps}
+          onChange={(e) => setReps(e.target.value)}
+        />
+
+        <input
+          type="number"
+          placeholder="Peso"
+          value={peso}
+          onChange={(e) => setPeso(e.target.value)}
+        />
+
+        <button onClick={crearSerie}>
+          ➕
+        </button>
+      </div>
+
+      {/* SERIES */}
+      <div style={{ marginTop: "10px" }}>
+        {maquina.series.map((serie, indexSerie) => (
+
+          <div key={indexSerie} style={{ marginBottom: "8px" }}>
+
+            {editandoSerie === indexSerie ? (
+              <>
+                <input
+                  type="number"
+                  value={editReps}
+                  onChange={(e) => setEditReps(e.target.value)}
+                />
+
+                <input
+                  type="number"
+                  value={editPeso}
+                  onChange={(e) => setEditPeso(e.target.value)}
+                />
+
+                <button onClick={() => guardarEdicionSerie(indexSerie)}>
+                  ✔️
+                </button>
+              </>
+            ) : (
+              <>
+                <span>
+                  {serie.reps} x {serie.peso} kg
+                </span>
+
+                <button onClick={() => iniciarEdicionSerie(serie, indexSerie)}>
+                  ✏️
+                </button>
+
+                <button
+                  onClick={() =>
+                    borrarSerie(
+                      indexEntrenamiento,
+                      indexMaquina,
+                      indexSerie
+                    )
+                  }
+                >
+                  🗑️
+                </button>
+              </>
+            )}
+
+          </div>
+
+        ))}
+      </div>
 
     </div>
-
   )
 }
 

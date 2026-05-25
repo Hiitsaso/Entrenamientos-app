@@ -109,3 +109,20 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.maquinas-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+
+  padding: 10px 0;
+}
+
+.maquina-card {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 12px;
+  background: white;
+}
