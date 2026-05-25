@@ -129,6 +129,43 @@ function App() {
     setEntrenamientos(copiaEntrenamientos)
   }
 
+  function borrarSerie(indexEntrenamiento, indexMaquina, indexSerie) {
+
+    const copiaEntrenamientos = [...entrenamientos]
+
+    copiaEntrenamientos[indexEntrenamiento]
+      .maquinas[indexMaquina]
+      .series.splice(indexSerie, 1)
+
+    setEntrenamientos(copiaEntrenamientos)
+
+  }
+
+  function borrarMaquina(indexEntrenamiento, indexMaquina) {
+
+    const copiaEntrenamientos = [...entrenamientos]
+
+    copiaEntrenamientos[indexEntrenamiento]
+      .maquinas.splice(indexMaquina, 1)
+
+    setEntrenamientos(copiaEntrenamientos)
+
+  }
+
+  function borrarEntrenamiento(indexEntrenamiento) {
+
+    const copiaEntrenamientos = [...entrenamientos]
+
+    copiaEntrenamientos.splice(
+      indexEntrenamiento,
+      1
+    )
+
+    setEntrenamientos(copiaEntrenamientos)
+
+  }
+
+
   return (
     <div>
 
@@ -156,6 +193,9 @@ function App() {
           }
           añadirMaquina={añadirMaquina}
           añadirSerie={añadirSerie}
+          borrarSerie={borrarSerie}
+          borrarMaquina={borrarMaquina}
+          borrarEntrenamiento={borrarEntrenamiento}
         />
 
       ))}

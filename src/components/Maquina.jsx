@@ -4,7 +4,10 @@ function Maquina({
   maquina,
   indexEntrenamiento,
   indexMaquina,
-  añadirSerie
+  añadirSerie,
+  borrarSerie,
+  borrarMaquina,
+  borrarEntrenamiento
 }) {
 
   const [reps, setReps] = useState("")
@@ -29,6 +32,17 @@ function Maquina({
 
       <h3>{maquina.nombre}</h3>
 
+      <button
+        onClick={() =>
+          borrarMaquina(
+            indexEntrenamiento,
+            indexMaquina
+          )
+        }
+      >
+        Borrar máquina
+      </button>
+
       <input
         type="number"
         placeholder="Reps"
@@ -49,9 +63,25 @@ function Maquina({
 
       {maquina.series.map((serie, indexSerie) => (
 
-        <p key={indexSerie}>
-          {serie.reps} reps - {serie.peso} kg
-        </p>
+        <div key={indexSerie}>
+
+          <p>
+            {serie.reps} reps - {serie.peso} kg
+          </p>
+
+          <button
+            onClick={() =>
+              borrarSerie(
+                indexEntrenamiento,
+                indexMaquina,
+                indexSerie
+              )
+            }
+          >
+            Borrar serie
+          </button>
+
+        </div>
 
       ))}
 

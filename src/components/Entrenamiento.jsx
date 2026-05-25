@@ -5,7 +5,10 @@ function Entrenamiento({
   index,
   maquinasDisponibles,
   añadirMaquina,
-  añadirSerie
+  añadirSerie,
+  borrarSerie, 
+  borrarMaquina,
+  borrarEntrenamiento
 }) {
 
   return (
@@ -15,6 +18,14 @@ function Entrenamiento({
       <h2>
         {entrenamiento.fecha} - {entrenamiento.tipo}
       </h2>
+
+      <button
+        onClick={() =>
+          borrarEntrenamiento(index)
+        }
+      >
+        Borrar entrenamiento
+      </button>
 
       {maquinasDisponibles.map((maquina) => (
 
@@ -35,6 +46,9 @@ function Entrenamiento({
           indexEntrenamiento={index}
           indexMaquina={indexMaquina}
           añadirSerie={añadirSerie}
+          borrarSerie={borrarSerie}
+          borrarMaquina={borrarMaquina}
+          borrarEntrenamiento={borrarEntrenamiento}
         />
 
       ))}
