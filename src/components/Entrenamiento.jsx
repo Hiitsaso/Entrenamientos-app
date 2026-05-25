@@ -19,6 +19,7 @@ function Entrenamiento({
       {maquinasDisponibles.map((maquina) => (
 
         <button
+          key={maquina}
           onClick={() => añadirMaquina(index, maquina)}
         >
           {maquina}
@@ -29,6 +30,7 @@ function Entrenamiento({
       {entrenamiento.maquinas.map((maquina, indexMaquina) => (
 
         <Maquina
+          key={indexMaquina}
           maquina={maquina}
           indexEntrenamiento={index}
           indexMaquina={indexMaquina}

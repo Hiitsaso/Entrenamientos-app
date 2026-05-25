@@ -47,9 +47,9 @@ function Maquina({
         Añadir serie
       </button>
 
-      {maquina.series.map((serie) => (
+      {maquina.series.map((serie, indexSerie) => (
 
-        <p>
+        <p key={indexSerie}>
           {serie.reps} reps - {serie.peso} kg
         </p>
 

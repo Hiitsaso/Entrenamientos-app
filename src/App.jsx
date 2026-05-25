@@ -136,7 +136,10 @@ function App() {
 
       {Object.keys(tiposEntrenamiento).map((tipo) => (
 
-        <button onClick={() => añadirEntrenamiento(tipo)}>
+        <button
+          key={tipo}
+          onClick={() => añadirEntrenamiento(tipo)}
+        >
           {tipo}
         </button>
 
@@ -145,6 +148,7 @@ function App() {
       {entrenamientos.map((entrenamiento, index) => (
 
         <Entrenamiento
+          key={index}
           entrenamiento={entrenamiento}
           index={index}
           maquinasDisponibles={
